@@ -1,6 +1,7 @@
 // Global Variables
 var toggleModal,
-    openLocationThumbModal;
+    openLocationThumbModal,
+    moveForward;
 
 (function () {
 
@@ -154,6 +155,14 @@ var toggleModal,
       animationScroll();
     }
   }, false);
+
+  moveForward = function () {
+    if (!showModal && !transitionInProgress) {
+      // scroll down
+      scrollCounter++;
+      animationScroll();
+    }
+  };
 
   init = function () {
     var i,
