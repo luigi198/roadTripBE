@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Road Trip!</title>
+        <link rel="stylesheet" href="/css-libs/FontAwesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/css-libs/Normalize/normalize.css">
+        <link rel="stylesheet" href="/styles/index.css">
+    </head>
+    <body>
+      <div class="bodyContainer">
+        <div id="roadContainer">
+          <img id='roadImg' src="/assets/rect3680.png">
+          <div id="car" class="car-icon"></div>
+          <div id="locations-container" class="locations-container">
+            <div class="location-thumb" id="location-thumb-container-1" onclick="openLocationThumbModal(1)">
+              <img id="location-thumb1" src="/assets/default-thumb.jpg" alt="image">
+            </div>
+            <div class="location-thumb" id="location-thumb-container-2" onclick="openLocationThumbModal(2)">
+              <img id="location-thumb2" src="/assets/default-thumb.jpg" alt="image">
+            </div>
+            <div class="location-thumb" id="location-thumb-container-3" onclick="openLocationThumbModal(3)">
+              <img id="location-thumb3" src="/assets/default-thumb.jpg" alt="image">
+            </div>
+            <div class="location-thumb" id="location-thumb-container-4" onclick="openLocationThumbModal(4)">
+              <img id="location-thumb4" src="/assets/default-thumb.jpg" alt="image">
+            </div>
+            <div class="location-thumb" id="location-thumb-container-5" onclick="openLocationThumbModal(5)">
+              <img id="location-thumb5" src="/assets/default-thumb.jpg" alt="image">
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal -->
+      <div id="modal">
+        <div class="modal-overlay" onclick="toggleModal()"></div>
+        <div class="modal-container">
+          <div class="modal-header">
+            <h2>Location!</h2>
+            <span class="modal-close-button" onclick="toggleModal()">X</span>
+          </div>
+          <div class="modal-body">
+            <div class="modal-body-col">
+              <img class="modal-location-img" src="/assets/test.jpg" alt="imagen">
+            </div><!--
+         --><div class="modal-body-col">
+              <div class="modal-body-container">
+                <p>Location Description!</p>
+                <p>Waze: <a href="#">Dirección de Waze</a></p>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div class="modal-footer-buttons-container">
+              <button type="button" name="checkLocation">Check Location</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script src="/scripts/main.js"></script>
+    </body>
+</html>
