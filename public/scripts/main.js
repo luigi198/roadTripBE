@@ -149,8 +149,14 @@ var toggleModal,
   }
 
   openLocationThumbModal = function (id) {
-    document.getElementById('modalLocationName').innerText = locationsThumbs[id - 1].data.name;
-    document.getElementById('modalLocationImg').src = '/assets/place' + locationsThumbs[id - 1].data.code + '.jpg'
+    if (locationsThumbs[id - 1].data.checked) {
+      document.getElementById('modalLocationName').innerText = locationsThumbs[id - 1].data.name;
+      document.getElementById('modalLocationImg').src = '/assets/place' + locationsThumbs[id - 1].data.code + '.jpg';
+    } else {
+      document.getElementById('modalLocationName').innerText = 'Encuentralo!';
+      document.getElementById('modalLocationImg').src = '/assets/default-thumb.jpg';
+    }
+
     toggleModal();
   };
 
@@ -231,6 +237,7 @@ var toggleModal,
       geolocation = true;
       navigator.geolocation.getCurrentPosition(function(position) {
         alert("yes geo: " + position.coords.latitude);
+        document.getElementById("testGeo").innerText = position.coords.latitude;
         console.log(position);
       });
     }
