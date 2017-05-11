@@ -113,6 +113,10 @@ body {
   vertical-align: middle;
 }
 
+.modal-body-col > button {
+  float: right;
+}
+
 .modal-body-container {
   width: 100%;
   padding: 15px;

@@ -1,7 +1,8 @@
 // Global Variables
 var toggleModal,
     openLocationThumbModal,
-    moveForward;
+    moveForward,
+    checkPosition;
 
 (function () {
 
@@ -151,11 +152,15 @@ var toggleModal,
   openLocationThumbModal = function (id) {
     if (locationsThumbs[id - 1].data.checked) {
       document.getElementById('modalLocationName').innerText = locationsThumbs[id - 1].data.name;
+      document.getElementById('modalLocationDescription').innerText = locationsThumbs[id - 1].data.description;
       document.getElementById('modalLocationImg').src = '/assets/place' + locationsThumbs[id - 1].data.code + '.jpg';
     } else {
       document.getElementById('modalLocationName').innerText = 'Encuentralo!';
+      document.getElementById('modalLocationDescription').innerText = 'Dale click al link de waze, vayamos a la localización y dale click al botón de "Revisar Posición".';
       document.getElementById('modalLocationImg').src = '/assets/default-thumb.jpg';
     }
+    document.getElementById('modalObjId').innerText = id;
+    document.getElementById('modalLocationWaze').href = locationsThumbs[id - 1].data.waze;
 
     toggleModal();
   };
@@ -216,6 +221,52 @@ var toggleModal,
       xmlhttp.send();
   }
 
+  checkPosition = function () {
+    var id = document.getElementById('modalObjId').innerText;
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var testaparta = {
+        lat:  9.925071,
+        lon: -84.003236
+      };
+      var aux = {
+        currentLat: position.coords.latitude,
+        currentLon: position.coords.longitude,
+        targetLat: testaparta.lat,
+        targetLon: testaparta.lon
+      };
+
+      // if (aux.currentLon < 0) {
+      //   aux.currentLon = (aux.currentLon * aux.currentLon) / aux.currentLon;
+      // }
+      // if (aux.currentLat < 0) {
+      //   aux.currentLat = (aux.currentLat * aux.currentLat) / aux.currentLat;
+      // }
+      // if (aux.targetLat < 0) {
+      //   aux.targetLat = (aux.targetLat * aux.targetLat) / aux.targetLat;
+      // }
+      // if (aux.targetLon < 0) {
+      //   aux.targetLon = (aux.targetLon * aux.targetLon) / aux.targetLon;
+      // }
+
+      //actual
+      // lat: 9.925231
+      //      9.925071
+      // lon: -84.003115
+      //      -84.003236
+      console.log(position);
+      console.log(aux.currentLat);
+      console.log(aux.targetLat + 0.001);
+      console.log(((aux.currentLat >= aux.targetLat && aux.currentLat <= (aux.targetLat + 0.001)) || (aux.currentLat <= aux.targetLat && aux.currentLat >= (aux.targetLat - 0.001))));
+      console.log(aux.currentLat <= (aux.targetLat - 0.001));
+      if (((aux.currentLat >= aux.targetLat && aux.currentLat <= (aux.targetLat + 0.001)) || (aux.currentLat <= aux.targetLat && aux.currentLat >= (aux.targetLat - 0.001))) &&
+          ((aux.currentLon >= aux.targetLon && aux.currentLon <= (aux.targetLon + 0.001)) || (aux.currentLon <= aux.targetLat && aux.currentLon >= (aux.targetLon - 0.001)))) {
+          alert("yes!");
+      } else {
+        alert("no");
+      }
+    });
+  };
+
   init = function () {
     var i,
         n;
@@ -235,13 +286,6 @@ var toggleModal,
 
     if (navigator.geolocation) {
       geolocation = true;
-      navigator.geolocation.getCurrentPosition(function(position) {
-        alert("yes geo: " + position.coords.latitude);
-        document.getElementById("testGeo").innerText = position.coords.latitude;
-        console.log(position);
-      });
-    } else {
-      alert("no geo");
     }
   };
 

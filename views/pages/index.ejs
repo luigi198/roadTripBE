@@ -14,7 +14,6 @@
           <img id='roadImg' src="/assets/rect3680.png">
           <div id='progressContainer'>
             <button type="button" name="button" onclick="moveForward()">Action</button>
-            <span id="testGeo"></span>
           </div>
           <div id="car" class="car-icon"></div>
           <div id="locations-container" class="locations-container">
@@ -38,6 +37,7 @@
       </div>
       <!-- Modal -->
       <div id="modal">
+        <span id="modalObjId" style="display: none"></span>
         <div class="modal-overlay" onclick="toggleModal()"></div>
         <div class="modal-container">
           <div class="modal-header">
@@ -50,9 +50,10 @@
             </div><!--
          --><div class="modal-body-col">
               <div class="modal-body-container">
-                <p id="modalLocationDescription">Location Description!</p>
-                <p>Waze: <a id="modalLocationWaze" href="#">Dirección de Waze</a></p>
+                <p id="modalLocationDescription"></p>
+                <p>Waze: <a id="modalLocationWaze" href="#" target="_blank">Dirección de Waze</a></p>
               </div>
+              <button type="button" name="button" onclick="checkPosition()">Revisar Posición</button>
             </div>
           </div>
           <div class="modal-footer">
