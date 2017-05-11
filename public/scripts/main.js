@@ -20,6 +20,7 @@ var toggleModal,
       animationScroll,
       cornerAnimation,
       moveRoad,
+      geolocation = false,
       transitionInProgress = false,
       showModal = false;
 
@@ -71,66 +72,70 @@ var toggleModal,
   };
 
   animationScroll = function () {
-    switch (scrollCounter) {
-      case 0:
-        moveRoad(null, 0);
-        break;
-      case 1:
-        carElement.style.transform = 'rotate(180deg)';
-        moveRoad(null, -50);
-        break;
-      case 2:
-        cornerAnimation(-82, -20, 90, -82, -600);
-        break;
-      case 3:
-        cornerAnimation(-90, -635, 180, -220, -635, function () {
-          checkInfo(1);
-        });
-        break;
-      case 4:
-        moveRoad(-635, -320);
-        break;
-      case 5:
-        cornerAnimation(-357, -615, 270, -357, -40);
-        break;
-      case 6:
-        cornerAnimation(-365, 0, 180, -490, 0, function () {
-          checkInfo(2);
-        });
-        break;
-      case 7:
-        moveRoad(0, -590);
-        break;
-      case 8:
-        cornerAnimation(-630, -20, 90, -630, -600);
-        break;
-      case 9:
-        cornerAnimation(-638, -635, 180, -767, -635, function () {
-          checkInfo(3);
-        });
-        break;
-      case 10:
-        moveRoad(-635, -867);
-        break;
-      case 11:
-        cornerAnimation(-902, -615, 270, -902, -40);
-        break;
-      case 12:
-        cornerAnimation(-912, 0, 180, -1035, 0, function () {
-          checkInfo(4);
-        });
-        break;
-      case 13:
-        moveRoad(0, -1135);
-        break;
-      case 14:
-        cornerAnimation(-1173, -20, 90, -1173, -600);
-        break;
-      case 15:
-        cornerAnimation(-1181, -635, 180, -1411, -635, function () {
-          checkInfo(5);
-        });
-        break;
+    if (!geolocation) {
+      alert("Please Allow the browser to use your Location and refresh the page");
+    } else {
+      switch (scrollCounter) {
+        case 0:
+          moveRoad(null, 0);
+          break;
+        case 1:
+          carElement.style.transform = 'rotate(180deg)';
+          moveRoad(null, -50);
+          break;
+        case 2:
+          cornerAnimation(-82, -20, 90, -82, -600);
+          break;
+        case 3:
+          cornerAnimation(-90, -635, 180, -220, -635, function () {
+            checkInfo(1);
+          });
+          break;
+        case 4:
+          moveRoad(-635, -320);
+          break;
+        case 5:
+          cornerAnimation(-357, -615, 270, -357, -40);
+          break;
+        case 6:
+          cornerAnimation(-365, 0, 180, -490, 0, function () {
+            checkInfo(2);
+          });
+          break;
+        case 7:
+          moveRoad(0, -590);
+          break;
+        case 8:
+          cornerAnimation(-630, -20, 90, -630, -600);
+          break;
+        case 9:
+          cornerAnimation(-638, -635, 180, -767, -635, function () {
+            checkInfo(3);
+          });
+          break;
+        case 10:
+          moveRoad(-635, -867);
+          break;
+        case 11:
+          cornerAnimation(-902, -615, 270, -902, -40);
+          break;
+        case 12:
+          cornerAnimation(-912, 0, 180, -1035, 0, function () {
+            checkInfo(4);
+          });
+          break;
+        case 13:
+          moveRoad(0, -1135);
+          break;
+        case 14:
+          cornerAnimation(-1173, -20, 90, -1173, -600);
+          break;
+        case 15:
+          cornerAnimation(-1181, -635, 180, -1411, -635, function () {
+            checkInfo(5);
+          });
+          break;
+      }
     }
   };
 
@@ -223,12 +228,11 @@ var toggleModal,
     loadPlacesInfoAjax();
 
     if ("geolocation" in navigator) {
+      geolocation = true;
       navigator.geolocation.getCurrentPosition(function(position) {
-        alert("yes geo: " + position);
+        alert("yes geo: " + position.coords.latitude);
         console.log(position);
       });
-    } else {
-      alert("no geo");
     }
   };
 
