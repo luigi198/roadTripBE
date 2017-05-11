@@ -223,7 +223,10 @@ var toggleModal,
     loadPlacesInfoAjax();
 
     if ("geolocation" in navigator) {
-      alert("yes geo");
+      navigator.geolocation.getCurrentPosition(function(position) {
+        alert("yes geo: " + position);
+        console.log(position);
+      });
     } else {
       alert("no geo");
     }
