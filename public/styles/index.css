@@ -209,3 +209,12 @@ img.modal-location-img {
 .location-thumb > img {
   width: 100%;
 }
+
+#progressContainer {
+  position: fixed;
+  z-index: 1;
+}
+
+#progressContainer > button {
+  cursor: pointer;
+}

@@ -6,6 +6,9 @@ var toggleModal,
 (function () {
 
   var init,
+      loadPlacesInfo,
+      loadPlacesInfoAjax,
+      checkInfo,
       scrollCounter = 0,
       roadContainer = document.getElementById('roadContainer'),
       roadImg = document.getElementById('roadImg'),
@@ -61,6 +64,12 @@ var toggleModal,
     carElement.addEventListener("transitionend", afterCarFunc, true);
   };
 
+  checkInfo = function (id) {
+    if (!locationsThumbs[id - 1].data.checked) {
+      openLocationThumbModal(id);
+    }
+  };
+
   animationScroll = function () {
     switch (scrollCounter) {
       case 0:
@@ -75,7 +84,7 @@ var toggleModal,
         break;
       case 3:
         cornerAnimation(-90, -635, 180, -220, -635, function () {
-          toggleModal();
+          checkInfo(1);
         });
         break;
       case 4:
@@ -86,7 +95,7 @@ var toggleModal,
         break;
       case 6:
         cornerAnimation(-365, 0, 180, -490, 0, function () {
-          toggleModal();
+          checkInfo(2);
         });
         break;
       case 7:
@@ -97,7 +106,7 @@ var toggleModal,
         break;
       case 9:
         cornerAnimation(-638, -635, 180, -767, -635, function () {
-          toggleModal();
+          checkInfo(3);
         });
         break;
       case 10:
@@ -108,7 +117,7 @@ var toggleModal,
         break;
       case 12:
         cornerAnimation(-912, 0, 180, -1035, 0, function () {
-          toggleModal();
+          checkInfo(4);
         });
         break;
       case 13:
@@ -119,7 +128,7 @@ var toggleModal,
         break;
       case 15:
         cornerAnimation(-1181, -635, 180, -1411, -635, function () {
-          toggleModal();
+          checkInfo(5);
         });
         break;
     }
@@ -135,6 +144,8 @@ var toggleModal,
   }
 
   openLocationThumbModal = function (id) {
+    document.getElementById('modalLocationName').innerText = locationsThumbs[id - 1].data.name;
+    document.getElementById('modalLocationImg').src = '/assets/place' + locationsThumbs[id - 1].data.code + '.jpg'
     toggleModal();
   };
 
@@ -149,9 +160,6 @@ var toggleModal,
       if (e.wheelDelta < 0) {
         scrollCounter++;
       }
-      // else if (scrollCounter !== 0) {
-      //   scrollCounter--;
-      // }
       animationScroll();
     }
   }, false);
@@ -163,6 +171,39 @@ var toggleModal,
       animationScroll();
     }
   };
+
+  loadPlacesInfo = function (data) {
+    var i, n;
+
+    for (i = 0, n = data.length; i<n; i++) {
+      locationsThumbs[data[i].code - 1].data = data[i];
+      if (data[i].checked) {
+        document.getElementById('location-thumb' + data[i].code).src = '/assets/place' + data[i].code + '.jpg';
+      }
+    }
+    console.log(data);
+  };
+
+  loadPlacesInfoAjax = function () {
+      var xmlhttp = new XMLHttpRequest();
+
+      xmlhttp.onreadystatechange = function() {
+          if (xmlhttp.readyState === XMLHttpRequest.DONE ) {
+             if (xmlhttp.status === 200) {
+                 loadPlacesInfo(JSON.parse(xmlhttp.response));
+             }
+             else if (xmlhttp.status === 400) {
+                alert('There was an error 400');
+             }
+             else {
+                 alert('something else other than 200 was returned');
+             }
+          }
+      };
+
+      xmlhttp.open("GET", "/api/places", true);
+      xmlhttp.send();
+  }
 
   init = function () {
     var i,
@@ -177,6 +218,14 @@ var toggleModal,
       });
       locationThumbs[i-1].locationThumbContainer.style.top = locationsThumbs[i-1].top + 'px';
       locationThumbs[i-1].locationThumbContainer.style.right = locationsThumbs[i-1].right + 'px';
+    }
+
+    loadPlacesInfoAjax();
+
+    if ("geolocation" in navigator) {
+      alert("yes geo");
+    } else {
+      alert("no geo");
     }
   };
 

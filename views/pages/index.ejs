@@ -40,17 +40,17 @@
         <div class="modal-overlay" onclick="toggleModal()"></div>
         <div class="modal-container">
           <div class="modal-header">
-            <h2>Location!</h2>
+            <h2 id="modalLocationName">Location!</h2>
             <span class="modal-close-button" onclick="toggleModal()">X</span>
           </div>
           <div class="modal-body">
             <div class="modal-body-col">
-              <img class="modal-location-img" src="/assets/test.jpg" alt="imagen">
+              <img id="modalLocationImg" class="modal-location-img" src="" alt="imagen">
             </div><!--
          --><div class="modal-body-col">
               <div class="modal-body-container">
-                <p>Location Description!</p>
-                <p>Waze: <a href="#">Dirección de Waze</a></p>
+                <p id="modalLocationDescription">Location Description!</p>
+                <p>Waze: <a id="modalLocationWaze" href="#">Dirección de Waze</a></p>
               </div>
             </div>
           </div>
