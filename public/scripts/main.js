@@ -233,13 +233,15 @@ var toggleModal,
 
     loadPlacesInfoAjax();
 
-    if ("geolocation" in navigator) {
+    if (navigator.geolocation) {
       geolocation = true;
       navigator.geolocation.getCurrentPosition(function(position) {
         alert("yes geo: " + position.coords.latitude);
         document.getElementById("testGeo").innerText = position.coords.latitude;
         console.log(position);
       });
+    } else {
+      alert("no geo");
     }
   };
 
