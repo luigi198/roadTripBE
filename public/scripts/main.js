@@ -10,6 +10,7 @@ var toggleModal,
       loadPlacesInfo,
       loadPlacesInfoAjax,
       loadCheckedInfo,
+      openLastModal,
       checkInfo,
       scrollCounter = 0,
       roadContainer = document.getElementById('roadContainer'),
@@ -141,13 +142,31 @@ var toggleModal,
     }
   };
 
+  openLastModal = function () {
+    document.getElementById('modalLocationName').innerText = "Hola!!! :)";
+    document.getElementById('modalLocationDescription').innerText = "Que te parece la idea de empezar otro capítulo de nuestras vidas? Tú, yo, perros, risas, enojos, películas y quien sabe que más! Piensalo ;) no dures mucho, mira atrás tuyo.";
+    document.getElementById('modalLocationImg').src = '/assets/lastPlace.jpg';
+    document.getElementById('checkLocationBtn').className = "hide";
+    document.getElementById('modalObjId').innerText = "";
+    document.getElementById('modalLocationWaze').className = "hide";
+    modalElement.style.display = 'block';
+  };
+
   toggleModal = function () {
     if (showModal) {
       modalElement.style.display = 'none';
+      console.log(document.getElementById('modalObjId').innerText);
+      console.log(locationsThumbs[4]);
+      if (document.getElementById('modalObjId').innerText === "5" && locationsThumbs[4].data.checked) {
+        console.log('entro');
+        openLastModal();
+      } else {
+        showModal = !showModal;
+      }
     } else {
       modalElement.style.display = 'block';
+      showModal = !showModal;
     }
-    showModal = !showModal;
   }
 
   openLocationThumbModal = function (id) {
@@ -155,13 +174,16 @@ var toggleModal,
       document.getElementById('modalLocationName').innerText = locationsThumbs[id - 1].data.name;
       document.getElementById('modalLocationDescription').innerText = locationsThumbs[id - 1].data.description;
       document.getElementById('modalLocationImg').src = '/assets/place' + locationsThumbs[id - 1].data.code + '.jpg';
+      document.getElementById('checkLocationBtn').className = "hide";
     } else {
       document.getElementById('modalLocationName').innerText = 'Encuentralo!';
       document.getElementById('modalLocationDescription').innerText = 'Dale click al link de waze, vayamos a la localización y dale click al botón de "Revisar Posición".';
       document.getElementById('modalLocationImg').src = '/assets/default-thumb.jpg';
+      document.getElementById('checkLocationBtn').className = "";
     }
     document.getElementById('modalObjId').innerText = id;
     document.getElementById('modalLocationWaze').href = locationsThumbs[id - 1].data.waze;
+    document.getElementById('modalLocationWaze').className = "";
 
     toggleModal();
   };
@@ -196,6 +218,7 @@ var toggleModal,
       locationsThumbs[data[i].code - 1].data = data[i];
       if (data[i].checked) {
         document.getElementById('location-thumb' + data[i].code).src = '/assets/place' + data[i].code + '.jpg';
+        document.getElementById('location-thumb' + data[i].code).className += " full-height";
       }
     }
     console.log(data);
@@ -309,6 +332,8 @@ var toggleModal,
 
     if (navigator.geolocation) {
       geolocation = true;
+    } else {
+      alert("Porfa activa el gps del dispositivo y dale permiso a la página para usarlo! Refresca la página");
     }
   };
 
