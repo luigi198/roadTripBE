@@ -29,7 +29,7 @@ app.get('/api/places', function (req, res) {
 });
 
 app.put('/api/places/:id', function (req, res) {
-  db.collection('places').update({'_id': req.params.id}, {'checked': true});
+  db.collection('places').update({'code': req.params.id}, {'checked': true});
   res.json({});
 });
 

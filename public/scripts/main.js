@@ -302,7 +302,7 @@ var toggleModal,
             }
         };
 
-        xmlhttp.open("PUT", "/api/places/" + locationsThumbs[id-1].data._id, true);
+        xmlhttp.open("PUT", "/api/places/" + locationsThumbs[id-1].data.code, true);
         xmlhttp.send();
       } else {
         alert("Su posición actual no es la correcta, pruebe en otro lugar");
