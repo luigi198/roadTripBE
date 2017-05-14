@@ -249,6 +249,7 @@ var toggleModal,
     document.getElementById('modalLocationName').innerText = locationsThumbs[id - 1].data.name;
     document.getElementById('modalLocationDescription').innerText = locationsThumbs[id - 1].data.description;
     document.getElementById('modalLocationImg').src = '/assets/place' + locationsThumbs[id - 1].data.code + '.jpg';
+    document.getElementById('location-thumb' + id).src = '/assets/place' + locationsThumbs[id - 1].data.code + '.jpg';
   };
 
   checkPosition = function () {
