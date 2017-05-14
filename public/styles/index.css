@@ -219,10 +219,13 @@ img.modal-location-img {
 #progressContainer {
   position: fixed;
   z-index: 1;
+  bottom: 0;
 }
 
 #progressContainer > button {
   cursor: pointer;
+  width: 100px;
+  height: 40px;
 }
 
 .full-height {
