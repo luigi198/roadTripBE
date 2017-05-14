@@ -29,7 +29,7 @@ app.get('/api/places', function (req, res) {
 });
 
 app.put('/api/places/:id', function (req, res) {
-  db.collection('places').update({'code': {$eq: req.params.id}}, {$set:{'checked': true}}, function (err, data) {
+  db.collection('places').update({'code': parseInt(req.params.id)}, {'$set':{'checked': true}}, function (err, data) {
     if (err) {
       res.status(500).json(err);
       return;
