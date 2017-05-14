@@ -29,8 +29,13 @@ app.get('/api/places', function (req, res) {
 });
 
 app.put('/api/places/:id', function (req, res) {
-  db.collection('places').update({'code': req.params.id}, {'checked': true});
-  res.json({});
+  db.collection('places').update({'code': {$eq: req.params.id}}, {$set:{'checked': true}}, function (err, data) {
+    if (err) {
+      res.status(500).json(err);
+      return;
+    }
+    res.json(data);
+  });
 });
 
 MongoClient.connect('mongodb://luisCordoba:MongoDBUserForRoadTripV1!@ds133251.mlab.com:33251/heroku_m7t659bm', (err, database) => {
