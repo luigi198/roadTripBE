@@ -19,7 +19,6 @@ app.get('/', function(request, response) {
 });
 
 app.get('/api/places', function (req, res) {
-  console.log('request from client');
   db.collection('places').find().sort({code: 1}).toArray(function (err, data) {
     if (err) {
       res.status(500).json(err);
@@ -30,14 +29,8 @@ app.get('/api/places', function (req, res) {
 });
 
 app.put('/api/places/:id', function (req, res) {
-  console.log('request from client');
-  db.collection('places').find({_id: req.params.id}).toArray(function (err, data) {
-    if (err) {
-      res.status(500).json(err);
-      return;
-    }
-    res.json(data[0]);
-  });
+  db.collection('places').update({_id: req.params.id}, {checked: true});
+  res.json({});
 });
 
 MongoClient.connect('mongodb://luisCordoba:MongoDBUserForRoadTripV1!@ds133251.mlab.com:33251/heroku_m7t659bm', (err, database) => {
