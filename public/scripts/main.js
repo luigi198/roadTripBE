@@ -231,8 +231,6 @@ var toggleModal,
   checkPosition = function () {
     var id = document.getElementById('modalObjId').innerText;
     navigator.geolocation.getCurrentPosition(function(position) {
-      console.log(position);
-      alert('lat: ' + position.coords.latitude + 'lon: ' + position.coords.longitude);
 
       var auxTarget = {
         lat: locationsThumbs[id-1].data.lat,
@@ -263,34 +261,32 @@ var toggleModal,
           return d;
       }
 
-      var result1 = HaversineInKM(auxCurrent.lat, auxCurrent.lng, auxTarget.lat, auxTarget.lng);
-      console.log(result1);
+      var result1 = HaversineInM(auxCurrent.lat, auxCurrent.lng, auxTarget.lat, auxTarget.lng);
 
-      // if (((aux.currentLat >= aux.targetLat && aux.currentLat <= (aux.targetLat + 0.036)) || (aux.currentLat <= aux.targetLat && aux.currentLat >= (aux.targetLat - 0.036))) &&
-      //     ((aux.currentLon >= aux.targetLon && aux.currentLon <= (aux.targetLon + 0.036)) || (aux.currentLon <= aux.targetLon && aux.currentLon >= (aux.targetLon - 0.036)))) {
-      //       var xmlhttp = new XMLHttpRequest();
-      //
-      //       xmlhttp.onreadystatechange = function() {
-      //           if (xmlhttp.readyState === XMLHttpRequest.DONE ) {
-      //              if (xmlhttp.status === 200) {
-      //                  alert('Felicidades! haz encontrado el lugar!');
-      //                  locationsThumbs[id - 1].data.checked = true;
-      //                  loadCheckedInfo(id);
-      //              }
-      //              else if (xmlhttp.status === 400) {
-      //                 alert('There was an error 400');
-      //              }
-      //              else {
-      //                  alert('something else other than 200 was returned');
-      //              }
-      //           }
-      //       };
-      //
-      //       xmlhttp.open("PUT", "/api/places/" + locationsThumbs[id-1].data._id, true);
-      //       xmlhttp.send();
-      // } else {
-      //   alert("Su posición actual no es la correcta, pruebe en otro lugar");
-      // }
+      if (result1 <= 100) {
+        var xmlhttp = new XMLHttpRequest();
+
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState === XMLHttpRequest.DONE ) {
+               if (xmlhttp.status === 200) {
+                   alert('Felicidades! haz encontrado el lugar!');
+                   locationsThumbs[id - 1].data.checked = true;
+                   loadCheckedInfo(id);
+               }
+               else if (xmlhttp.status === 400) {
+                  alert('There was an error 400');
+               }
+               else {
+                   alert('something else other than 200 was returned');
+               }
+            }
+        };
+
+        xmlhttp.open("PUT", "/api/places/" + locationsThumbs[id-1].data._id, true);
+        xmlhttp.send();
+      } else {
+        alert("Su posición actual no es la correcta, pruebe en otro lugar");
+      }
     });
   };
 
