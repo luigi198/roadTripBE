@@ -155,10 +155,7 @@ var toggleModal,
   toggleModal = function () {
     if (showModal) {
       modalElement.style.display = 'none';
-      console.log(document.getElementById('modalObjId').innerText);
-      console.log(locationsThumbs[4]);
       if (document.getElementById('modalObjId').innerText === "5" && locationsThumbs[4].data.checked) {
-        console.log('entro');
         openLastModal();
       } else {
         showModal = !showModal;
@@ -189,7 +186,6 @@ var toggleModal,
   };
 
   roadImg.addEventListener("transitionend", function () {
-    console.log('transitionend');
     transitionInProgress = false;
   }, true);
 
@@ -221,7 +217,6 @@ var toggleModal,
         document.getElementById('location-thumb' + data[i].code).className += " full-height";
       }
     }
-    console.log(data);
   };
 
   loadPlacesInfoAjax = function () {
@@ -250,6 +245,7 @@ var toggleModal,
     document.getElementById('modalLocationDescription').innerText = locationsThumbs[id - 1].data.description;
     document.getElementById('modalLocationImg').src = '/assets/place' + locationsThumbs[id - 1].data.code + '.jpg';
     document.getElementById('location-thumb' + id).src = '/assets/place' + locationsThumbs[id - 1].data.code + '.jpg';
+    document.getElementById('location-thumb' + id).className += " full-height";
   };
 
   checkPosition = function () {
