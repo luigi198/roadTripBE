@@ -9,6 +9,7 @@ var toggleModal,
   var init,
       loadPlacesInfo,
       loadPlacesInfoAjax,
+      loadCheckedInfo,
       checkInfo,
       scrollCounter = 0,
       roadContainer = document.getElementById('roadContainer'),
@@ -221,49 +222,75 @@ var toggleModal,
       xmlhttp.send();
   }
 
+  loadCheckedInfo = function (id) {
+    document.getElementById('modalLocationName').innerText = locationsThumbs[id - 1].data.name;
+    document.getElementById('modalLocationDescription').innerText = locationsThumbs[id - 1].data.description;
+    document.getElementById('modalLocationImg').src = '/assets/place' + locationsThumbs[id - 1].data.code + '.jpg';
+  };
+
   checkPosition = function () {
     var id = document.getElementById('modalObjId').innerText;
     navigator.geolocation.getCurrentPosition(function(position) {
-      var testaparta = {
-        lat:  9.925071,
-        lon: -84.003236
-      };
-      var aux = {
-        currentLat: position.coords.latitude,
-        currentLon: position.coords.longitude,
-        targetLat: testaparta.lat,
-        targetLon: testaparta.lon
-      };
-
-      // if (aux.currentLon < 0) {
-      //   aux.currentLon = (aux.currentLon * aux.currentLon) / aux.currentLon;
-      // }
-      // if (aux.currentLat < 0) {
-      //   aux.currentLat = (aux.currentLat * aux.currentLat) / aux.currentLat;
-      // }
-      // if (aux.targetLat < 0) {
-      //   aux.targetLat = (aux.targetLat * aux.targetLat) / aux.targetLat;
-      // }
-      // if (aux.targetLon < 0) {
-      //   aux.targetLon = (aux.targetLon * aux.targetLon) / aux.targetLon;
-      // }
-
-      //actual
-      // lat: 9.925231
-      //      9.925071
-      // lon: -84.003115
-      //      -84.003236
       console.log(position);
-      console.log(aux.currentLat);
-      console.log(aux.targetLat + 0.001);
-      console.log(((aux.currentLat >= aux.targetLat && aux.currentLat <= (aux.targetLat + 0.001)) || (aux.currentLat <= aux.targetLat && aux.currentLat >= (aux.targetLat - 0.001))));
-      console.log(aux.currentLat <= (aux.targetLat - 0.001));
-      if (((aux.currentLat >= aux.targetLat && aux.currentLat <= (aux.targetLat + 0.001)) || (aux.currentLat <= aux.targetLat && aux.currentLat >= (aux.targetLat - 0.001))) &&
-          ((aux.currentLon >= aux.targetLon && aux.currentLon <= (aux.targetLon + 0.001)) || (aux.currentLon <= aux.targetLat && aux.currentLon >= (aux.targetLon - 0.001)))) {
-          alert("yes!");
-      } else {
-        alert("no");
+      alert('lat: ' + position.coords.latitude + 'lon: ' + position.coords.longitude);
+
+      var auxTarget = {
+        lat: locationsThumbs[id-1].data.lat,
+        lng: locationsThumbs[id-1].data.lon
+      };
+
+      var auxCurrent = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+
+      var _eQuatorialEarthRadius = 6378.1370;
+      var _d2r = (Math.PI / 180.0);
+
+      function HaversineInM(lat1, long1, lat2, long2)
+      {
+          return (1000.0 * HaversineInKM(lat1, long1, lat2, long2));
       }
+
+      function HaversineInKM(lat1, long1, lat2, long2)
+      {
+          var dlong = (long2 - long1) * _d2r;
+          var dlat = (lat2 - lat1) * _d2r;
+          var a = Math.pow(Math.sin(dlat / 2.0), 2.0) + Math.cos(lat1 * _d2r) * Math.cos(lat2 * _d2r) * Math.pow(Math.sin(dlong / 2.0), 2.0);
+          var c = 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0 - a));
+          var d = _eQuatorialEarthRadius * c;
+
+          return d;
+      }
+
+      var result1 = HaversineInKM(auxCurrent.lat, auxCurrent.lng, auxTarget.lat, auxTarget.lng);
+      console.log(result1);
+
+      // if (((aux.currentLat >= aux.targetLat && aux.currentLat <= (aux.targetLat + 0.036)) || (aux.currentLat <= aux.targetLat && aux.currentLat >= (aux.targetLat - 0.036))) &&
+      //     ((aux.currentLon >= aux.targetLon && aux.currentLon <= (aux.targetLon + 0.036)) || (aux.currentLon <= aux.targetLon && aux.currentLon >= (aux.targetLon - 0.036)))) {
+      //       var xmlhttp = new XMLHttpRequest();
+      //
+      //       xmlhttp.onreadystatechange = function() {
+      //           if (xmlhttp.readyState === XMLHttpRequest.DONE ) {
+      //              if (xmlhttp.status === 200) {
+      //                  alert('Felicidades! haz encontrado el lugar!');
+      //                  locationsThumbs[id - 1].data.checked = true;
+      //                  loadCheckedInfo(id);
+      //              }
+      //              else if (xmlhttp.status === 400) {
+      //                 alert('There was an error 400');
+      //              }
+      //              else {
+      //                  alert('something else other than 200 was returned');
+      //              }
+      //           }
+      //       };
+      //
+      //       xmlhttp.open("PUT", "/api/places/" + locationsThumbs[id-1].data._id, true);
+      //       xmlhttp.send();
+      // } else {
+      //   alert("Su posición actual no es la correcta, pruebe en otro lugar");
+      // }
     });
   };
 
